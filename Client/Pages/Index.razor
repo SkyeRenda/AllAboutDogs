@@ -22,29 +22,21 @@ Welcome to your new app.
 
 
 @if (selectedBreeds != null)
-{   <div class="tag-collection">
+{   
         @foreach (string selection in selectedBreeds)
         {
-            <div class="dog-tag">
+            <div >
                 @selection
                 <button class="close-button" @onclick="(() => DeleteBreed(selection))">X</button>
+            <AllAboutDogs.Client.Components.DogCardDeck breedName="@selection"></AllAboutDogs.Client.Components.DogCardDeck>
             </div>
         }
-    </div>
     
-
-        
-   
-    @foreach (string selection in selectedBreeds)
-    {
-        <AllAboutDogs.Client.Components.DogCardDeck breedName="@selection"></AllAboutDogs.Client.Components.DogCardDeck>
-    }
-
+    
+    
 }
 
 @code {
-    public string SearchText = "";
-
     public IEnumerable<BreedName> DogBreedList { get; set; } = new List<BreedName>();
 
     protected override async Task OnInitializedAsync()
@@ -54,6 +46,7 @@ Welcome to your new app.
     }
 
     public List<string> selectedBreeds = new List<string>();
+
     public string SelectAutoCompleteText { get; set; } = "";
 
     public string _selectSearchValue = "";
@@ -65,7 +58,7 @@ Welcome to your new app.
         {
             _selectSearchValue = value;
             AddBreed(value);
-
+  
         }
     }
     private void AddBreed(string n)
@@ -73,15 +66,21 @@ Welcome to your new app.
         if (n != null)
         {
             selectedBreeds.Add(n);
+            
         }
-
+        
+        
     }
 
     private void DeleteBreed(string n)
     {
         selectedBreeds.Remove(n);
+        
     }
 
-    List<BreedName> FilteredDogs => DogBreedList.Where(
-    item => item.Name.ToLower().Contains(SearchText.ToLower())).ToList();
-}
+
+    
+
+  
+
+ }
