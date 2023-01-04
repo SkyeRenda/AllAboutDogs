@@ -1,0 +1,84 @@
+﻿@page "/"
+@using AllAboutDogs.Shared;
+@inject HttpClient Http
+
+<PageTitle>Index</PageTitle>
+
+<h1 >Hello!</h1>
+Welcome to your new app.
+<Autocomplete TItem="BreedName"
+              TValue="string"
+              Data="@DogBreedList"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Name)"
+              @bind-SelectedValue="@SelectedSearchValue"
+              @bind-SelectedText="@SelectAutoCompleteText"
+              Placeholder="Search..."
+              Filter="AutocompleteFilter.StartsWith"
+              FreeTyping
+              CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+
+@if (selectedBreeds != null)
+{
+    @foreach (string selection in selectedBreeds)
+    {
+        <div class="dog-tag">
+            <p>@selection</p>
+            <button @onclick="(() => DeleteBreed(selection))">X</button>
+        </div>
+
+        
+    }
+    @foreach (string selection in selectedBreeds)
+    {
+        <AllAboutDogs.Client.Components.DogCardDeck breedName="@selection"></AllAboutDogs.Client.Components.DogCardDeck>
+    }
+
+}
+
+@code {
+    public string SearchText = "";
+
+    public IEnumerable<BreedName> DogBreedList { get; set; } = new List<BreedName>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        DogBreedList = await Http.GetFromJsonAsync<IEnumerable<BreedName>>("/api/DogList/FetchBreedList");
+        await base.OnInitializedAsync();
+    }
+
+    public List<string> selectedBreeds = new List<string>();
+    public string SelectAutoCompleteText { get; set; } = "";
+
+    public string _selectSearchValue = "";
+
+    public string SelectedSearchValue
+    {
+        get => _selectSearchValue;
+        set
+        {
+            _selectSearchValue = value;
+            AddBreed(value);
+
+        }
+    }
+    private void AddBreed(string n)
+    {
+        if (n != null)
+        {
+            selectedBreeds.Add(n);
+        }
+
+    }
+
+    private void DeleteBreed(string n)
+    {
+        selectedBreeds.Remove(n);
+    }
+
+    List<BreedName> FilteredDogs => DogBreedList.Where(
+    item => item.Name.ToLower().Contains(SearchText.ToLower())).ToList();
+}

@@ -1,0 +1,24 @@
+﻿@using AllAboutDogs.Shared;
+@inject HttpClient Http;
+   
+<div class="custom-card">
+    <img class="image-card" src=@doggy.imageURL alt=@($"Photo of {doggy.breedName}")/>
+    <div>
+        <h1>@doggy.breedName</h1>
+        <h3>Testing</h3>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string breedName { get; set; } = "";
+
+    public Dog doggy = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+       doggy = await Http.GetFromJsonAsync<Dog>($"/api/DogList/SingleDog?breedName={breedName}");
+       await base.OnInitializedAsync();
+        
+    }
+}
