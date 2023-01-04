@@ -22,16 +22,19 @@ Welcome to your new app.
 
 
 @if (selectedBreeds != null)
-{
-    @foreach (string selection in selectedBreeds)
-    {
-        <div class="dog-tag">
-            <p>@selection</p>
-            <button @onclick="(() => DeleteBreed(selection))">X</button>
-        </div>
+{   <div class="tag-collection">
+        @foreach (string selection in selectedBreeds)
+        {
+            <div class="dog-tag">
+                @selection
+                <button class="close-button" @onclick="(() => DeleteBreed(selection))">X</button>
+            </div>
+        }
+    </div>
+    
 
         
-    }
+   
     @foreach (string selection in selectedBreeds)
     {
         <AllAboutDogs.Client.Components.DogCardDeck breedName="@selection"></AllAboutDogs.Client.Components.DogCardDeck>

@@ -4,3 +4,25 @@
 h1{
     color: blue;
 }
+
+.dog-tag{
+    background-color: rebeccapurple;
+    display: flex;
+    border-width:2px;
+    width: 6rem;
+    color:white;
+    margin: 5px;
+    border-radius: 30px;
+}
+
+.close-button {
+    background-color: rebeccapurple;
+    border: none;
+    color: white;
+    width:100%;
+    height: 100%;
+}
+
+.tag-collection{
+    display:flex;
+}
