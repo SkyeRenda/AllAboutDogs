@@ -2,39 +2,48 @@
 @using AllAboutDogs.Shared;
 @inject HttpClient Http
 
-<PageTitle>Index</PageTitle>
+<div class="start">
 
-<h1 >Hello!</h1>
-Welcome to your new app.
-<Autocomplete TItem="BreedName"
-              TValue="string"
-              Data="@DogBreedList"
-              TextField="@(( item ) => item.Name)"
-              ValueField="@(( item ) => item.Name)"
-              @bind-SelectedValue="@SelectedSearchValue"
-              @bind-SelectedText="@SelectAutoCompleteText"
-              Placeholder="Search..."
-              Filter="AutocompleteFilter.StartsWith"
-              FreeTyping
-              CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
-</Autocomplete>
+    <PageTitle>Index</PageTitle>
+
+    <h1 >All About Dogs!</h1>
+    <p> This web page is all about dogs and their information.</p>
+    <p> Search the name of the breed below:</p>
+</div>
+<div class="search-bar">
+    <Autocomplete 
+                  TItem="BreedName"
+                  TValue="string"
+                  Data="@DogBreedList"
+                  TextField="@(( item ) => item.Name)"
+                  ValueField="@(( item ) => item.Name)"
+                  @bind-SelectedValue="@SelectedSearchValue"
+                  @bind-SelectedText="@SelectAutoCompleteText"
+                  Placeholder="Search..."
+                  Filter="AutocompleteFilter.StartsWith"
+                  FreeTyping
+                  CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+        <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    </Autocomplete>
+</div>
+
 
 
 @if (selectedBreeds != null)
-{   
+{   <div class="card-stack">
+
         @foreach (string selection in selectedBreeds)
-        {
-            <div >
-                @selection
-                <button class="close-button" @onclick="(() => DeleteBreed(selection))">X</button>
-            <AllAboutDogs.Client.Components.DogCardDeck breedName="@selection"></AllAboutDogs.Client.Components.DogCardDeck>
+        { 
+                <div @key="@selection" class="dog-card">
+                 <button class="close-button" @onclick="(() => DeleteBreed(selection))"><img class="close-icon" src="/close.png" alt="Close Button" /></button>
+                <AllAboutDogs.Client.Components.DogCardDeck breedName="@selection"></AllAboutDogs.Client.Components.DogCardDeck>
+               
             </div>
+            
         }
-    
-    
-    
+    </div>
 }
+
 
 @code {
     public IEnumerable<BreedName> DogBreedList { get; set; } = new List<BreedName>();

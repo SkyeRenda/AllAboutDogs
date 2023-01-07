@@ -1,28 +1,58 @@
 ﻿body {
+    
+}
+.start {
+    color: white;
+    stroke: black;
+    stroke-width: 1px;
 }
 
-h1{
-    color: blue;
+
+.search-bar{
+    width: 90%;
+    margin: auto;
 }
 
-.dog-tag{
-    background-color: rebeccapurple;
-    display: flex;
-    border-width:2px;
-    width: 6rem;
-    color:white;
-    margin: 5px;
+.card-stack {
+    display: grid;
+    margin-top: 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px 10px;
+}
+
+
+.dog-card {
+    display:flex;
+    width: 100%;
+    color: black;
     border-radius: 30px;
+    background-color: lightgray;
 }
 
 .close-button {
-    background-color: rebeccapurple;
+    background: none;
     border: none;
     color: white;
-    width:100%;
-    height: 100%;
+    margin: 20px 10px auto 10px;
+    max-width: 15px;
 }
 
-.tag-collection{
-    display:flex;
+.close-icon{
+    width:15px;
+    height: 15px;
 }
+
+@media screen and (max-width: 800px) {
+    .card-stack{
+        display:block
+    }
+    .dog-card {
+        display: flex;
+        width: 100%;
+        color: black;
+        border-radius: 30px;
+        background-color: lightgray;
+        margin: 5px 0px 5px 0px;
+        
+    }
+}   

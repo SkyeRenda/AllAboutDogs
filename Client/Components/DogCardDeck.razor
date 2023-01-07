@@ -2,10 +2,21 @@
 @inject HttpClient Http;
  
     <div class="custom-card">
-    <img class="image-card" src=@doggy.imageURL alt=@($"Photo of {doggy.breedName}") />
+    <div class=" image-container">
+        
+        <img src="@doggy.imageURL" alt="@doggy.breedName" class="image-card" />
+        
+
+    </div>
     <div>
-        <h1>@doggy.breedName</h1>
-        <h3>Testing</h3>
+        <h3 class="card-title">@doggy.breedName</h3>
+        <div class="info">
+            <p>Breed Group: @doggy.breedGroup</p>
+            <p>Bred For: @doggy.bredFor</p>
+            <p>Height: @doggy.MinHeight - @doggy.MaxHeight</p>
+            <p>Weight: @doggy.MinWeight - @doggy.MaxWeight</p>
+            <p>Lifespan: @doggy.MinLife - @doggy.MaxLife</p>
+        </div>
     </div>
     </div>
     
@@ -16,14 +27,20 @@
 
     public Dog doggy = new();
 
+    public List<DogImage> images = new();
+
+
     protected override async Task OnInitializedAsync()
     {
 
         doggy = await Http.GetFromJsonAsync<Dog>($"/api/DogList/SingleDog?breedName={breedName}");
+        images = await Http.GetFromJsonAsync<List<DogImage>>($"https://api.thedogapi.com/v1/images/search?limit=8&size=full&breed_id={doggy.id}&sub_id=demo-4fe957");
+
         await base.OnInitializedAsync();
 
     }
 
-    
+
+
     
 }
