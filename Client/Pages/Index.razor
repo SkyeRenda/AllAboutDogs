@@ -72,7 +72,7 @@
     }
     private void AddBreed(string n)
     {
-        if (n != null)
+        if (n != null && selectedBreeds.Contains(n) == false)
         {
             selectedBreeds.Add(n);
             
